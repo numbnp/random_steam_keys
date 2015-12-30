@@ -13,15 +13,6 @@ class m151227_141007_27122015 extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%games}}', [
-            'id' => $this->primaryKey(),
-            'group_id' => $this->float()->notNull()->defaultValue(0),
-            'name' => $this->string()->notNull()->unique(),
-            'cost' => $this->float()->notNull()->defaultValue(0),
-            'created_at' => $this->datetime()->notNull(),
-            'updated_at' => $this->datetime()->notNull(),
-        ], $tableOptions);
-
         $this->createTable('{{%groups}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique(),
@@ -29,12 +20,24 @@ class m151227_141007_27122015 extends Migration
             'updated_at' => $this->datetime()->notNull(),
         ], $tableOptions);
 
+        $this->createTable('{{%games}}', [
+            'id' => $this->primaryKey(),
+            'group_id' => $this->integer()->notNull(),
+            'name' => $this->string()->notNull()->unique(),
+            'cost' => $this->float()->notNull()->defaultValue(0),
+            'created_at' => $this->datetime()->notNull(),
+            'updated_at' => $this->datetime()->notNull(),
+        ], $tableOptions);
+
+        $this->createIndex('group_id_index','{{%games}}','group_id');
+        $this->addForeignKey('games_groups','{{%games}}','group_id','{{%groups}}','id','CASCADE');
+
     }
 
     public function down()
     {
-        $this->dropTable('{{%games}}');
         $this->dropTable('{{%groups}}');
+        $this->dropTable('{{%games}}');
     }
 
     /*
