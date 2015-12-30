@@ -4,27 +4,27 @@ namespace backend\models;
 
 use Yii;
 use \yii\db\Expression;
-
 /**
- * This is the model class for table "games".
+ * This is the model class for table "keys".
  *
  * @property integer $id
- * @property integer $group_id
- * @property string $name
+ * @property integer $game_id
+ * @property string $key
  * @property double $cost
  * @property string $created_at
  * @property string $updated_at
+ * @property integer $sales
  *
- * @property Groups $group
+ * @property Games $game
  */
-class Games extends \yii\db\ActiveRecord
+class Keys extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'games';
+        return 'keys';
     }
 
     /**
@@ -33,12 +33,12 @@ class Games extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['group_id', 'name'], 'required'],
-            [['group_id'], 'integer'],
+            [['game_id', 'key'], 'required'],
+            [['game_id', 'sales'], 'integer'],
             [['cost'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 255],
-            [['name'], 'unique']
+            [['key'], 'string', 'max' => 255],
+            [['key'], 'unique']
         ];
     }
 
@@ -49,26 +49,26 @@ class Games extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'group_id' => 'Group ID',
-            'name' => 'Name',
+            'game_id' => 'Game ID',
+            'key' => 'Key',
             'cost' => 'Cost',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'GroupName'  => 'Group Name',
+            'sales' => 'Sales',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getGroup()
+    public function getGame()
     {
-        return $this->hasOne(Groups::className(), ['id' => 'group_id']);
+        return $this->hasOne(Games::className(), ['id' => 'game_id']);
     }
 
-    public function getGroupName()
+    public function getGameName()
     {
-        return $this->group ? $this->group->name : '';
+        return $this->game ? $this->game->name : '';
     }
 
     /**
@@ -86,5 +86,4 @@ class Games extends \yii\db\ActiveRecord
         $this->updated_at = new Expression('NOW()');
         return parent::beforeSave($insert);
     }
-
 }

@@ -3,30 +3,32 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use \backend\models\Groups;
+use \backend\models\Games;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Games */
+/* @var $model backend\models\Keys */
 /* @var $form yii\widgets\ActiveForm */
-
 ?>
 
-<div class="games-form">
+<div class="keys-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?php
-        $groups = Groups::find()->all();
-        $items = ArrayHelper::map($groups,'id','name');
+        $games = Games::find()->all();
+        $items = ArrayHelper::map($games,'id','name');
         $params = [
-            'prompt' => 'Укажите группу'
+            'prompt' => 'Укажите продукт'
         ];
     ?>
-    <?= $form->field($model, 'group_id')->dropDownList($items,$params) ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'game_id')->dropDownList($items,$params) ?>
+
+    <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'cost')->textInput() ?>
+
+    <?= $form->field($model, 'sales')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

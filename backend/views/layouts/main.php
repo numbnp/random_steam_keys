@@ -25,6 +25,14 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
+<?php
+$controller = $this->context;
+$route = $controller->route;
+
+var_dump($route);
+
+?>
+
 <div class="wrap">
     <?php
     NavBar::begin([
